@@ -7,6 +7,7 @@ namespace Hangout.Entities
 
 		string Id { get; set; }
 
+
 	}
 
 }
