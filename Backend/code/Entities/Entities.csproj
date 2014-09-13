@@ -33,6 +33,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="HangoutRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>
