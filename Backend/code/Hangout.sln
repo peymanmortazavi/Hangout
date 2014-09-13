@@ -5,12 +5,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{69192CFE-EE22-416B-8BB1-C818B5DEC816}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{3614D9C7-3DB4-4E29-9431-D3F273B96FC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F4A318B3-542E-436C-BD3B-1B0A00160F40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.Tests", "BusinessLogic.Tests\BusinessLogic.Tests.csproj", "{23F57BB7-F578-4E24-A2C3-0E1EC898045B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{23F57BB7-F578-4E24-A2C3-0E1EC898045B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23F57BB7-F578-4E24-A2C3-0E1EC898045B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23F57BB7-F578-4E24-A2C3-0E1EC898045B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23F57BB7-F578-4E24-A2C3-0E1EC898045B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3614D9C7-3DB4-4E29-9431-D3F273B96FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3614D9C7-3DB4-4E29-9431-D3F273B96FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3614D9C7-3DB4-4E29-9431-D3F273B96FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3614D9C7-3DB4-4E29-9431-D3F273B96FC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69192CFE-EE22-416B-8BB1-C818B5DEC816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69192CFE-EE22-416B-8BB1-C818B5DEC816}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69192CFE-EE22-416B-8BB1-C818B5DEC816}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -19,6 +33,9 @@ Global
 		{A75A0DF2-C54D-4168-A073-4D12203D89A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A75A0DF2-C54D-4168-A073-4D12203D89A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A75A0DF2-C54D-4168-A073-4D12203D89A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23F57BB7-F578-4E24-A2C3-0E1EC898045B} = {F4A318B3-542E-436C-BD3B-1B0A00160F40}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = DataAccess\DataAccess.csproj
