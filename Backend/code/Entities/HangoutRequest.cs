@@ -2,8 +2,10 @@
 
 namespace Hangout.Entities
 {
-	public class HangoutRequest
+	public class HangoutRequest : IEntity
 	{
+
+		public string Id { get; set; }
 
 		public string GroupId { get; set; }
 
