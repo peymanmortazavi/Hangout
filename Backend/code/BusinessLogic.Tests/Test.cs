@@ -9,7 +9,9 @@ namespace BusinessLogic.Tests
 		[Test ()]
 		public void TestCase ()
 		{
+			Console.WriteLine ("I added something :)");
 		}
+
 	}
 }
 
