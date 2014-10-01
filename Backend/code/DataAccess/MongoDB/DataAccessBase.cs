@@ -9,8 +9,6 @@ namespace Hangout.DataAccess
 
 		protected DataAccessBase(string connectionString)
 		{
-			//Preconditions.CheckNotBlank(connectionString, "connectionString");
-
 			var url = MongoUrl.Create(connectionString);
 
 			var mongoClient = new MongoClient(url);
