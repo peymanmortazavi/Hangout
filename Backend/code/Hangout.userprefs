@@ -1,6 +1,12 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Core/Security/HangoutClaims.cs">
+    <Files>
+      <File FileName="BusinessLogic/UserService.cs" Line="63" Column="63" />
+      <File FileName="Core/Security/PasswordHash.cs" Line="4" Column="4" />
+      <File FileName="Core/Security/HangoutClaims.cs" Line="42" Column="42" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

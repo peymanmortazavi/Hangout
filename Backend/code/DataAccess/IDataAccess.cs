@@ -24,6 +24,10 @@ namespace Hangout.DataAccess
 
 		T Get<T> (string id) where T : IEntity;
 
+		void Update<T> (T entity) where T : IEntity;
+
+		void Update<T> (Expression<Func<T, bool>> query, Action<T> update) where T : IEntity;
+
 	}
 
 }

@@ -1,4 +1,6 @@
-﻿
+﻿using System.Collections.Generic;
+
+
 namespace Hangout.Entities
 {
 	public class User : IEntity
@@ -10,13 +12,15 @@ namespace Hangout.Entities
 
 		public string LastName { get; set; }
 
+		public string Password { get; set; }
+
 		public string Email { get; set; }
 
 		public string PhoneNumber { get; set; }
 
-		public string[] Friends { get; set; }
+		public List<string> Friends { get; set; }
 
-		public string[] AttendingEvents { get; set; }
+		public List<string> AttendingEvents { get; set; }
 
 	}
 
