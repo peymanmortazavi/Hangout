@@ -5,43 +5,47 @@ using System.Text.RegularExpressions;
 using Hangout.DataAccess;
 using Hangout.Core;
 using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace Hangout.BusinessLogic
 {
 	public class UserService : IUserService
 	{
 
-		IDataAccess _dataAccess;
+		readonly IDataAccess _dataAccess;
 
 		public UserService(IDataAccess dataAccess)
 		{
 			if (dataAccess == null)
 				throw new ArgumentNullException ("dataAccess");
 
-			this._dataAccess = dataAccess;
+			_dataAccess = dataAccess;
 		}
-
-		// TODO: throw correct exceptions.
-		private void ValidateUser(User user)
+			
+		private static void ValidateUser(User user)
 		{
+
+			var details = new Dictionary<string, string> ();
 		
 			if (string.IsNullOrWhiteSpace (user.FirstName))
-				throw new Exception ("INVALID FIRST NAME");
+				details ["FirstName"] = "First name cannot be empty.";
 
 			if (string.IsNullOrWhiteSpace (user.LastName))
-				throw new Exception ("");
+				details ["LastName"] = "Last name cannot be empty.";
 
-			if(Regex.IsMatch (user.PhoneNumber, @"^\d{3}-?\d{3}-?\d{4}$"))
-				throw new Exception ("invalid phone number. pass 000-000-0000");
-
-			if (Regex.IsMatch (user.Email, "^.*[@]{1}\\w*[.]{1}\\w{2,4}$"))
-				throw new Exception ("invalid email");
+			if (Regex.IsMatch (user.PhoneNumber, @"^\d{3}-?\d{3}-?\d{4}$"))
+				details ["PhoneNumber"] = "Enter a valid U.S. phone number. 000-000-0000";
 
 			user.PhoneNumber = user.PhoneNumber.Replace ("-", string.Empty);
 
+			if (Regex.IsMatch (user.Email, "^.*[@]{1}\\w*[.]{1}\\w{2,4}$"))
+				details ["Email"] = "Please enter a valid email.";
+
 			if (Regex.IsMatch (user.Password, "^.{8,25}$"))
-				throw new Exception ("");
+				details["Password"] = "Pass must be at least 8 characters and less than 25 characters.";
 				
+			if (details.Count > 0)
+				throw new ValidationException (ErrorCodes.EntityValidationError, details, "User is not valid.");
 		}
 
 		public void CreateUser (User user)
@@ -52,8 +56,15 @@ namespace Hangout.BusinessLogic
 
 			ValidateUser (user);
 
-			if (_dataAccess.All<User> ().Any (x => x.Email == user.Email || x.PhoneNumber == user.PhoneNumber))
-				throw new Exception ("");
+			var existingUser = _dataAccess.All<User> ().FirstOrDefault (x => x.Email == user.Email || x.PhoneNumber == user.PhoneNumber);
+			if (existingUser != null) 
+			{
+				if(existingUser.PhoneNumber == user.PhoneNumber)
+					throw new DuplicateEntityException (ErrorCodes.EntityDuplicatedError, "PhoneNumber", string.Format ("Phone number '{0}' is taken.", user.PhoneNumber));
+
+				if(existingUser.Email == user.Email)
+					throw new DuplicateEntityException (ErrorCodes.EntityDuplicatedError, "Email", string.Format ("Email '{0}' is taken.", user.Email));
+			}
 
 			user.Password = PasswordHash.HashPassword (user.Password);
 
@@ -75,7 +86,7 @@ namespace Hangout.BusinessLogic
 			user = _dataAccess.All<User> ().FirstOrDefault (x => x.Email == username && x.Password == password);
 
 			if (user == null)
-				throw new Exception ("not found yo!");
+				throw new BadCredentialsException (ErrorCodes.BadCredentialsError, "Wrong email and password!");
 
 		}
 
@@ -88,14 +99,14 @@ namespace Hangout.BusinessLogic
 			var targetUser = _dataAccess.Get<User> (userId);
 
 			if (targetUser == null)
-				throw new Exception ("user not found !");
+				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "User not found.");
 
 			var currentUser = _dataAccess.Get<User> (currentUserId);
 
 			if (currentUser.Friends.Contains (userId))
-				throw new Exception ("you are already friends!!!");
+				throw new AlreadyFriendException (ErrorCodes.AlreadyFriendError, "You are already ");
 
-			var friendRequest = new FriendRequest () {
+			var friendRequest = new FriendRequest {
 				RequesterId = currentUserId,
 				ReceiverId = userId
 			};
@@ -115,17 +126,17 @@ namespace Hangout.BusinessLogic
 			var friendRequest = _dataAccess.Get<FriendRequest> (friendRequestId);
 
 			if (friendRequest == null)
-				throw new Exception ("not found !");
+				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "Friend request not found!");
 
 			var requesterUser = _dataAccess.Get<User> (friendRequest.RequesterId);
 
 			if (requesterUser == null)
-				throw new Exception ("they don't want to be your friends.");
+				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "User not found!");
 
 			var receiverUser = _dataAccess.Get<User> (friendRequest.ReceiverId);
 
 			if (receiverUser == null)
-				throw new Exception ("oops they've run away cause you asked them to be friends !");
+				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "User not found.");
 
 			requesterUser.Friends.Add (receiverUser.Id);
 
@@ -148,7 +159,7 @@ namespace Hangout.BusinessLogic
 			var friendRequest = _dataAccess.Get<FriendRequest> (friendRequestId);
 
 			if (friendRequest == null)
-				throw new Exception ("not found !");
+				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "Friend request not found!");
 
 			_dataAccess.Delete<FriendRequest> (friendRequestId);
 

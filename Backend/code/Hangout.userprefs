@@ -1,10 +1,13 @@
 ﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Core/Security/HangoutClaims.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WebAPI/Controller/AccountsController.cs">
     <Files>
-      <File FileName="BusinessLogic/UserService.cs" Line="63" Column="63" />
-      <File FileName="Core/Security/PasswordHash.cs" Line="4" Column="4" />
-      <File FileName="Core/Security/HangoutClaims.cs" Line="42" Column="42" />
+      <File FileName="DataAccess/MongoDB/DataAccessBase.cs" Line="46" Column="46" />
+      <File FileName="DataAccess/IDataAccess.cs" Line="1" Column="1" />
+      <File FileName="WebAPI/Program.cs" Line="42" Column="42" />
+      <File FileName="WebAPI/Startup.cs" Line="38" Column="38" />
+      <File FileName="WebAPI/Controller/AccountsController.cs" Line="43" Column="43" />
+      <File FileName="WebAPI/Models/REST/Users/CreateUserModel.cs" Line="3" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
