@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B8173E66-A070-4CA9-87E8-B1A34EE6FBDA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Hangout</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F936F30606FA632F29F283B62F6BCDC0081EC017</key>
+		<string>https://github.com/peymanmortazavi/Hangout.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Frontend/Hangout/Hangout.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F936F30606FA632F29F283B62F6BCDC0081EC017</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/peymanmortazavi/Hangout.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F936F30606FA632F29F283B62F6BCDC0081EC017</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F936F30606FA632F29F283B62F6BCDC0081EC017</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Hangout</string>
+		</dict>
+	</array>
+</dict>
+</plist>
