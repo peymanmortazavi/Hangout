@@ -1,6 +1,9 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '8.0'
-pod 'AFNetworking', '~> 2.0.0'
+# Last updated very recently
+pod 'AFNetworking', '~> 1.2.0'
+
+# Last updated Mar 2013
 pod 'SignalR-ObjC', '~> 1.0.1'
 
 source 'https://github.com/CocoaPods/Specs.git'

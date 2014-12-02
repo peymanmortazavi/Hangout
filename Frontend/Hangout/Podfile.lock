@@ -1,31 +1,14 @@
 PODS:
-  - AFNetworking (2.0.3):
-    - AFNetworking/NSURLConnection (= 2.0.3)
-    - AFNetworking/NSURLSession (= 2.0.3)
-    - AFNetworking/Reachability (= 2.0.3)
-    - AFNetworking/Security (= 2.0.3)
-    - AFNetworking/Serialization (= 2.0.3)
-    - AFNetworking/UIKit (= 2.0.3)
-  - AFNetworking/NSURLConnection (2.0.3):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.0.3):
-    - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.0.3)
-  - AFNetworking/Security (2.0.3)
-  - AFNetworking/Serialization (2.0.3)
-  - AFNetworking/UIKit (2.0.3):
-    - AFNetworking/NSURLConnection
+  - AFNetworking (1.2.1)
   - SignalR-ObjC (1.0.1):
     - AFNetworking (>= 1.0.0)
 
 DEPENDENCIES:
-  - AFNetworking (~> 2.0.0)
+  - AFNetworking (~> 1.2.0)
   - SignalR-ObjC (~> 1.0.1)
 
 SPEC CHECKSUMS:
-  AFNetworking: a4d0e9a64de9242986620dafd1b3cee3b413ac5c
+  AFNetworking: 7e82cfea05017c338ae62897f0a09ba1a8ebb479
   SignalR-ObjC: daecc2e84aae71666d8037805af398c70fe5353f
 
 COCOAPODS: 0.35.0

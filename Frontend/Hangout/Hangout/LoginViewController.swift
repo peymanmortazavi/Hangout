@@ -13,6 +13,10 @@ import UIKit
 class LoginViewController: UIViewController {
     @IBOutlet weak var firstNameLabel: UILabel!
     
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    // Currently trying to get dismiss the keyboard when user taps out. I know I need to call emailTextField.resignFirstResponder at the right time
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
