@@ -16,8 +16,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        var client: HangoutClient = HangoutClient(apiUrl: "http://10.202.21.182:8080/")
-//        firstNameLabel.text = client.testGet()
+        var client: HangoutClient = HangoutClient(apiUrl: "http://10.202.21.182:8080/")
+        firstNameLabel.text = client.testGet()
         
     }
     
