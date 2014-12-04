@@ -13,8 +13,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var connection: SRConnection = SRConnection(URL: "http://172.29.129.140:8080/test");
-        connection.start()
+//        var connection: SRConnection = SRConnection(URL: "http://172.29.129.140:8080/test");
+//        connection.start()
 
     }
 
