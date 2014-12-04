@@ -39,6 +39,8 @@
 
 @property (strong, nonatomic, readonly) NSString *connectionToken;
 
+@property (nonatomic, readonly) bool tryWebSockets;
+
 /**
  * An `NSString` object representing the app relative server url the client should use for all subsequent requests
  */
@@ -50,11 +52,5 @@
 @property (strong, nonatomic, readonly) NSString *protocolVersion;
 
 @property (strong, nonatomic, readonly) NSNumber *disconnectTimeout;
-
-@property (assign, nonatomic, readonly) BOOL tryWebSockets;
-
-@property (strong, nonatomic, readonly) NSNumber *keepAliveTimeout;
-
-@property (strong, nonatomic, readonly) NSNumber *transportConnectTimeout;
 
 @end

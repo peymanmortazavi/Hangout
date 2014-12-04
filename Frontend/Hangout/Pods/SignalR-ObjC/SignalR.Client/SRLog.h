@@ -25,8 +25,7 @@
 #define LOG_FLAG_LONGPOLLING        (1 << 2)  // 0...000100
 #define LOG_FLAG_SERVERSENTEVENTS   (1 << 3)  // 0...001000
 #define LOG_FLAG_HTTPTRANSPORT      (1 << 4)  // 0...010000
-#define LOG_FLAG_WEBSOCKETS         (1 << 5)  // 0...100000
-#define LOG_FLAG_AUTOTRANSPORT      (1 << 6)  // 0..1000000
+#define LOG_FLAG_AUTOTRANSPORT      (1 << 5)  // 0...100000
 
 #define LOG_LEVEL_OFF     0
 #define LOG_LEVEL_HTTP              (LOG_FLAG_HTTP)                     // 0...000001
@@ -34,7 +33,6 @@
 #define LOG_LEVEL_LONGPOLLING       (LOG_FLAG_LONGPOLLING   | LOG_FLAG_CONNECTION | LOG_FLAG_HTTP) // 0...000111
 #define LOG_LEVEL_SERVERSENTEVENTS  (LOG_FLAG_SERVERSENTEVENTS | LOG_FLAG_CONNECTION | LOG_FLAG_HTTP) // 0...001011
 #define LOG_LEVEL_HTTPTRANSPORT     (LOG_FLAG_HTTPTRANSPORT | LOG_FLAG_SERVERSENTEVENTS | LOG_FLAG_LONGPOLLING | LOG_FLAG_CONNECTION  | LOG_FLAG_HTTP ) // 0...011111
-#define LOG_LEVEL_WEBSOCKETS     (LOG_FLAG_WEBSOCKETS | LOG_FLAG_CONNECTION  | LOG_FLAG_HTTP ) // 0...011111
 #define LOG_LEVEL_AUTOTRANSPORT     (LOG_FLAG_AUTOTRANSPORT | LOG_FLAG_HTTPTRANSPORT | LOG_FLAG_SERVERSENTEVENTS | LOG_FLAG_LONGPOLLING | LOG_FLAG_CONNECTION  | LOG_FLAG_HTTP ) // 0...111111
 
 #define LOG_HTTP                (ddLogLevel & LOG_FLAG_HTTP )
@@ -42,10 +40,9 @@
 #define LOG_LONGPOLLING         (ddLogLevel & LOG_FLAG_LONGPOLLING  )
 #define LOG_SERVERSENTEVENTS    (ddLogLevel & LOG_FLAG_SERVERSENTEVENTS)
 #define LOG_HTTPTRANSPORT       (ddLogLevel & LOG_FLAG_HTTPTRANSPORT  )
-#define LOG_WEBSOCKETS          (ddLogLevel & LOG_LEVEL_WEBSOCKETS  )
 #define LOG_AUTOTRANSPORT       (ddLogLevel & LOG_FLAG_AUTOTRANSPORT )
 
-static int ddLogLevel = LOG_LEVEL_AUTOTRANSPORT;
+static int ddLogLevel = LOG_LEVEL_OFF;
 
 #define COCOA_LUMBER_JACK 0
 #if COCOA_LUMBER_JACK
@@ -82,7 +79,6 @@ static int ddLogLevel = LOG_LEVEL_AUTOTRANSPORT;
 #define SRLogLongPolling(frmt, ...)         SYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_LONGPOLLING,       0, frmt, ##__VA_ARGS__)
 #define SRLogServerSentEvents(frmt, ...)    SYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_SERVERSENTEVENTS,  0, frmt, ##__VA_ARGS__)
 #define SRLogHTTPTransport(frmt, ...)       SYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_HTTPTRANSPORT,     0, frmt, ##__VA_ARGS__)
-#define SRLogWebSockets(frmt, ...)          SYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_WEBSOCKETS,     0, frmt, ##__VA_ARGS__)
 #define SRLogAutoTransport(frmt, ...)       SYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_AUTOTRANSPORT,     0, frmt, ##__VA_ARGS__)
 
 #define SRLogCHTTP(frmt, ...)               SYNC_LOG_C_MAYBE(ddLogLevel, LOG_FLAG_HTTP,             0, frmt, ##__VA_ARGS__)
@@ -90,7 +86,6 @@ static int ddLogLevel = LOG_LEVEL_AUTOTRANSPORT;
 #define SRLogCLongPolling(frmt, ...)        SYNC_LOG_C_MAYBE(ddLogLevel, LOG_FLAG_LONGPOLLING,      0, frmt, ##__VA_ARGS__)
 #define SRLogCServerSentEvents(frmt, ...)   SYNC_LOG_C_MAYBE(ddLogLevel, LOG_FLAG_SERVERSENTEVENTS, 0, frmt, ##__VA_ARGS__)
 #define SRLogCHTTPTransport(frmt, ...)      SYNC_LOG_C_MAYBE(ddLogLevel, LOG_FLAG_HTTPTRANSPORT,    0, frmt, ##__VA_ARGS__)
-#define SRLogCWebSockets(frmt, ...)      SYNC_LOG_C_MAYBE(ddLogLevel, LOG_FLAG_WEBSOCKETS,    0, frmt, ##__VA_ARGS__)
 #define SRLogCAutoTransport(frmt, ...)      SYNC_LOG_C_MAYBE(ddLogLevel, LOG_FLAG_AUTOTRANSPORT,    0, frmt, ##__VA_ARGS__)
 
 #else
@@ -123,12 +118,6 @@ do{ \
 do{ \
     if(ddLogLevel & LOG_HTTPTRANSPORT) \
         NSLog((@"Thread %@:%s [Line %d]\n[HTTP_BASED_TRANSPORT]    " fmt), [NSThread currentThread], __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); \
-} while(0)
-
-#define SRLogWebSocket(fmt, ...) \
-do{ \
-if(ddLogLevel & LOG_WEBSOCKETS) \
-NSLog((@"Thread %@:%s [Line %d]\n[WEB_SOCKETS]    " fmt), [NSThread currentThread], __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); \
 } while(0)
 
 #define SRLogAutoTransport(fmt, ...) \

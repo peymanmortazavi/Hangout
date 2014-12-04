@@ -23,7 +23,7 @@
 #import "SREventSourceStreamReader.h"
 #import "SRChunkBuffer.h"
 #import "SRLog.h"
-#import "SRServerSentEvent.h"
+#import "SRSseEvent.h"
 
 typedef enum {
     initial,
@@ -41,8 +41,11 @@ typedef enum {
 
 - (BOOL)processing;
 
+- (void)processBuffer:(NSData *)buffer read:(NSInteger)read;
+
 - (void)onOpened;
-- (void)onMessage:(SRServerSentEvent *)sseEvent;
+- (void)onMessage:(SRSseEvent *)sseEvent;
+- (void)onDisabled;
 - (void)onClosed:(NSError *)error;
 
 @end
@@ -73,61 +76,60 @@ typedef enum {
 }
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        switch (eventCode) {
-            case NSStreamEventOpenCompleted: {
-                SRLogServerSentEvents(@"Opened");
-                
-                _reading = processing;
-                [self onOpened];
-            } case NSStreamEventHasSpaceAvailable: {
-                if (![self processing]) {
-                    return;
-                }
-                
-                NSData *buffer = [stream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-                /*if ([buffer length] >= 4096) {
-                    [self close];
-                    return;
-                }*/
-                buffer = [buffer subdataWithRange:NSMakeRange(_offset, [buffer length] - _offset)];
-                
-                NSInteger read = [buffer length];
-                if(read > 0) {
-                    // Put chunks in the buffer
-                    _offset = _offset + read;
-                    
-                    [_buffer add:buffer];
-                    while ([_buffer hasChunks]) {
-                        NSString *line = [_buffer readLine];
-                        
-                        // No new lines in the buffer so stop processing
-                        if (line == nil) {
-                            break;
-                        }
-                        
-                        SRServerSentEvent *sseEvent = nil;
-                        if(![SRServerSentEvent tryParseEvent:line sseEvent:&sseEvent]) {
-                            continue;
-                        }
-                        
-                        SRLogServerSentEvents(@"SSE READ: %@",sseEvent);
-                        
-                        [self onMessage:sseEvent];
-                    }
-                }
-                break;
-            } case NSStreamEventErrorOccurred: {
-                [self onClosed:[stream streamError]];
-                break;
+    switch (eventCode) {
+        case NSStreamEventOpenCompleted: {
+            SRLogServerSentEvents(@"Opened");
+
+            _reading = processing;
+            [self onOpened];
+        } case NSStreamEventHasSpaceAvailable: {
+            if (![self processing]) {
+                return;
             }
-            case NSStreamEventEndEncountered:
-            case NSStreamEventNone:
-            case NSStreamEventHasBytesAvailable:
-            default:
-                break;
+            
+            NSData *buffer = [stream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+            buffer = [buffer subdataWithRange:NSMakeRange(_offset, [buffer length] - _offset)];
+            
+            NSInteger read = [buffer length];            
+            if(read > 0) {
+                // Put chunks in the buffer
+                _offset = _offset + read;
+                [self processBuffer:buffer read:read];
+            }
+            
+            break;
+        } case NSStreamEventErrorOccurred: {
+            [self onClosed:[stream streamError]];
+            break;
         }
-    });
+        case NSStreamEventEndEncountered:
+        case NSStreamEventNone:
+        case NSStreamEventHasBytesAvailable:
+        default:
+            break;
+    }
+}
+
+- (void)processBuffer:(NSData *)buffer read:(NSInteger)read {
+    [_buffer add:buffer length:read];
+    
+    while ([_buffer hasChunks]) {
+        NSString *line = [_buffer readLine];
+        
+        // No new lines in the buffer so stop processing
+        if (line == nil) {
+            break;
+        }
+        
+        SRSseEvent *sseEvent = nil;
+        if(![SRSseEvent tryParseEvent:line sseEvent:&sseEvent]) {
+            continue;
+        }
+        
+        SRLogServerSentEvents(@"SSE READ: %@",sseEvent);
+        
+        [self onMessage:sseEvent];
+    }
 }
 
 #pragma mark -
@@ -139,9 +141,15 @@ typedef enum {
     }
 }
 
-- (void)onMessage:(SRServerSentEvent *)sseEvent {
+- (void)onMessage:(SRSseEvent *)sseEvent {
     if(self.message) {
         self.message(sseEvent);
+    }
+}
+
+- (void)onDisabled {
+    if (self.disabled) {
+        self.disabled();
     }
 }
 
@@ -150,7 +158,7 @@ typedef enum {
     SREventSourceStreamReaderState previousState = _reading;
     _reading = stopped;
     
-    if (previousState != stopped){
+    if (previousState == processing){
         SRLogServerSentEvents(@"Closed");
 
         if(self.closed) {
@@ -159,6 +167,10 @@ typedef enum {
         
         _stream.delegate = nil;
         [_stream close];
+    }
+    
+    if (previousState != stopped && self.disabled) {
+        self.disabled();
     }
 }
 

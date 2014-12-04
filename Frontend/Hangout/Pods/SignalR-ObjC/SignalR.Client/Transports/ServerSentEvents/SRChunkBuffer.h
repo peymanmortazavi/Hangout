@@ -25,7 +25,7 @@
 @interface SRChunkBuffer : NSObject
 
 - (BOOL)hasChunks;
-- (void)add:(id)buffer;
+- (void)add:(id)buffer length:(NSInteger)length;
 - (NSString *)readLine;
 
 @end

@@ -22,10 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SRConnectionState.h"
-
-@protocol SRClientTransportInterface;
-@class SRKeepAliveData;
-@class SRVersion;
+#import "SRRequest.h"
 
 @protocol SRConnectionInterface <NSObject>
 
@@ -33,18 +30,14 @@
 /// @name Properties
 ///-------------------------------
 
-@property (strong, nonatomic, readwrite) SRVersion *protocol;
-@property (strong, nonatomic, readwrite) NSNumber *transportConnectTimeout;
-@property (strong, nonatomic, readwrite) SRKeepAliveData *keepAliveData;
 @property (strong, nonatomic, readwrite) NSString *messageId;
 @property (strong, nonatomic, readwrite) NSString *groupsToken;
+@property (strong, nonatomic, readonly) NSString *connectionToken;
 @property (strong, nonatomic, readonly) NSMutableDictionary *items;
 @property (strong, nonatomic, readonly) NSString *connectionId;
-@property (strong, nonatomic, readonly) NSString *connectionToken;
 @property (strong, nonatomic, readonly) NSString *url;
 @property (strong, nonatomic, readonly) NSString *queryString;
 @property (assign, nonatomic, readonly) connectionState state;
-@property (strong, nonatomic, readonly) id<SRClientTransportInterface> transport;
 @property (strong, nonatomic, readwrite) NSURLCredential *credentials;
 @property (strong, nonatomic, readwrite) NSMutableDictionary *headers;
 
@@ -61,23 +54,21 @@
 ///-------------------------------
 
 - (void)send:(id)object;
-- (void)send:(id)object completionHandler:(void (^)(id response, NSError *error))block;
+- (void)send:(id)object completionHandler:(void (^)(id response))block;
 
 ///-------------------------------
 /// @name Receiving Data
 ///-------------------------------
 
-- (void)didReceiveData:(id)data;
+- (void)didReceiveData:(NSString *)data;
 - (void)didReceiveError:(NSError *)error;
 - (void)willReconnect;
 - (void)didReconnect;
-- (void)connectionDidSlow;
 
 ///-------------------------------
 /// @name Preparing Requests
 ///-------------------------------
 
-- (void)updateLastKeepAlive;
-- (void)prepareRequest:(NSMutableURLRequest *)request;
+- (void)prepareRequest:(id <SRRequest>)request;
 
 @end

@@ -23,11 +23,10 @@
 #include <TargetConditionals.h>
 #import "SRAutoTransport.h"
 #import "SRConnection.h"
+#import "SRDefaultHttpClient.h"
 #import "SRLog.h"
 #import "SRNegotiationResponse.h"
 #import "SRVersion.h"
-#import "SRKeepAliveData.h"
-#import "SRHeartbeatMonitor.h"
 
 #import "NSObject+SRJSON.h"
 
@@ -35,8 +34,8 @@ void (^prepareRequest)(id);
 
 @interface SRConnection ()
 
-@property (strong, nonatomic, readwrite) NSNumber * defaultAbortTimeout;
 @property (strong, nonatomic, readonly) SRVersion *assemblyVersion;
+@property (strong, nonatomic, readonly) id <SRClientTransportInterface> transport;
 @property (strong, nonatomic, readwrite) NSNumber * disconnectTimeout;
 @property (strong, nonatomic, readwrite) NSBlockOperation * disconnectTimeoutOperation;
 
@@ -44,8 +43,6 @@ void (^prepareRequest)(id);
 @property (strong, nonatomic, readwrite) NSString *url;
 @property (strong, nonatomic, readwrite) NSMutableDictionary *items;
 @property (strong, nonatomic, readwrite) NSString *queryString;
-@property (strong, nonatomic, readwrite) NSString *connectionData;
-@property (strong, nonatomic, readwrite) SRHeartbeatMonitor *monitor;
 
 - (void)negotiate:(id <SRClientTransportInterface>)transport;
 - (void)verifyProtocolVersion:(NSString *)versionString;
@@ -56,9 +53,6 @@ void (^prepareRequest)(id);
 
 @implementation SRConnection
 
-@synthesize protocol = _protocol;
-@synthesize transportConnectTimeout = _transportConnectTimeout;
-@synthesize keepAliveData = _keepAliveData;
 @synthesize messageId = _messageId;
 @synthesize groupsToken = _groupsToken;
 @synthesize connectionToken = _connectionToken;
@@ -67,7 +61,6 @@ void (^prepareRequest)(id);
 @synthesize url = _url;
 @synthesize queryString = _queryString;
 @synthesize state = _state;
-@synthesize transport = _transport;
 @synthesize credentials = _credentials;
 @synthesize headers = _headers;
 
@@ -91,7 +84,7 @@ void (^prepareRequest)(id);
 }
 
 - (instancetype)initWithURLString:(NSString *)url query:(NSDictionary *)queryString {
-    return [self initWithURLString:url queryString:[self createQueryString:queryString]];
+    return [self initWithURLString:url queryString:[[self class] createQueryString:queryString]];
 }
 
 - (instancetype)initWithURLString:(NSString *)url queryString:(NSString *)queryString {
@@ -110,14 +103,9 @@ void (^prepareRequest)(id);
         
         _url = url;
         _queryString = queryString;
-        //_disconnectTimeoutOperation = DisposableAction.Empty;
-        //_connectingMessageBuffer = new ConnectingMessageBuffer(this, OnMessageReceived);
         _items = [NSMutableDictionary dictionary];
         _headers = [NSMutableDictionary dictionary];
         _state = disconnected;
-        _defaultAbortTimeout = @30;
-        _transportConnectTimeout = @0;
-        _protocol = [[SRVersion alloc] initWithMajor:1 minor:3];
     }
     return self;
 }
@@ -126,16 +114,19 @@ void (^prepareRequest)(id);
 #pragma mark Connection management
 
 - (void)start {
-    // Pick the best transport supported by the client
-    [self start:[[SRAutoTransport alloc] init]];
+    [self startHttpClient:[SRDefaultHttpClient new]];
 }
 
-- (void)start:(id <SRClientTransportInterface>)transport {
+- (void)startHttpClient:(id <SRHttpClient>)httpClient {
+    // Pick the best transport supported by the client
+    [self startTransport:[[SRAutoTransport alloc] initWithHttpClient:httpClient]];
+}
+
+- (void)startTransport:(id <SRClientTransportInterface>)transport {
     if (![self changeState:disconnected toState:connecting]) {
         return;
     }
-    
-    _monitor = [[SRHeartbeatMonitor alloc] initWithConnection:self];
+            
     _transport = transport;
     
     [self negotiate:transport];
@@ -144,49 +135,28 @@ void (^prepareRequest)(id);
 - (void)negotiate:(id<SRClientTransportInterface>)transport {
     SRLogConnection(@"will negotiate");
     
-    _connectionData = [self onSending];
-    
-    __weak __typeof(&*self)weakSelf = self;
-    [transport negotiate:self connectionData:_connectionData completionHandler:^(SRNegotiationResponse *negotiationResponse, NSError *error) {
-        if (!error) {
-            __strong __typeof(&*weakSelf)strongSelf = weakSelf;
-            SRLogConnection(@"negotiation was successful %@",negotiationResponse);
-            
-            [strongSelf verifyProtocolVersion:negotiationResponse.protocolVersion];
-            
-            _connectionId = negotiationResponse.connectionId;
-            _connectionToken = negotiationResponse.connectionToken;
-            _disconnectTimeout = negotiationResponse.disconnectTimeout;
-            _transportConnectTimeout = @([_transportConnectTimeout integerValue] + [negotiationResponse.transportConnectTimeout integerValue]);
-            
-            // If we have a keep alive
-            if (negotiationResponse.keepAliveTimeout != nil) {
-                _keepAliveData = [[SRKeepAliveData alloc] initWithTimeout:negotiationResponse.keepAliveTimeout];
-            }
-            
-            [strongSelf startTransport];
-        }
-    }];
-}
+    [transport negotiate:self completionHandler:^(SRNegotiationResponse *negotiationResponse) {
+        SRLogConnection(@"negotiation was successful %@",negotiationResponse);
 
-- (void)startTransport {
-    __weak __typeof(&*self)weakSelf = self;
-    [self.transport start:self connectionData:_connectionData completionHandler:^(id response, NSError *error) {
-        if (!error) {
-            __strong __typeof(&*weakSelf)strongSelf = weakSelf;
+        [self verifyProtocolVersion:negotiationResponse.protocolVersion];
+        
+        if(negotiationResponse.connectionId) {
+            _connectionId = negotiationResponse.connectionId;
+            _disconnectTimeout = negotiationResponse.disconnectTimeout;
+            _connectionToken = negotiationResponse.connectionToken;
             
-            [strongSelf changeState:connecting toState:connected];
+            NSString *data = [self onSending];
             
-            if (_keepAliveData != nil && [_transport supportsKeepAlive]) {
-                [_monitor start];
-            }
-            
-            if(strongSelf.started != nil) {
-                strongSelf.started();
-            }
-            if(strongSelf.delegate && [strongSelf.delegate respondsToSelector:@selector(SRConnectionDidOpen:)]) {
-                [strongSelf.delegate SRConnectionDidOpen:strongSelf];
-            }
+            [_transport start:self withData:data completionHandler:^(id task) {
+                [self changeState:connecting toState:connected];
+                
+                if(self.started != nil) {
+                    self.started();
+                }
+                if(self.delegate && [self.delegate respondsToSelector:@selector(SRConnectionDidOpen:)]) {
+                    [self.delegate SRConnectionDidOpen:self];
+                }
+            }];
         }
     }];
 }
@@ -216,46 +186,33 @@ void (^prepareRequest)(id);
     SRVersion *version = nil;
     if((versionString == nil || [versionString isEqualToString:@""] == YES) ||
        ![SRVersion tryParse:versionString forVersion:&version] ||
-       !([version isEqual:_protocol])) {
+       !(version.major == 1 && version.minor == 2)) {
         [NSException raise:NSInternalInconsistencyException format:NSLocalizedString(@"Incompatible Protocol Version",@"NSInternalInconsistencyException")];
     }
 }
 
 - (void)stop {
-    [self stop:self.defaultAbortTimeout];
-}
-
-- (void)stop:(NSNumber *)timeout {
-    
     // Do nothing if the connection is offline
     if (self.state != disconnected) {
-        
-        [_monitor stop];
-        _monitor = nil;
-        
-        //TODO: set connectiondata
-        [_transport abort:self timeout:timeout connectionData:_connectionData];
+        [_transport abort:self];
         [self disconnect];
-        
-        _transport = nil;
     }
 }
 
 - (void)disconnect {
     if (self.state != disconnected) {
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:SRConnectionDidDisconnect object:self];
+        
         _state = disconnected;
         
-        [_monitor stop];
-        _monitor = nil;
+        if(self.closed != nil) {
+            self.closed();
+        }
         
-        // Clear the state for this connection
-        _connectionId = nil;
-        _connectionToken = nil;
-        _groupsToken = nil;
-        _messageId = nil;
-        
-        [self didClose];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(SRConnectionDidClose:)]) {
+            [self.delegate SRConnectionDidClose:self];
+        }
     }
 }
 
@@ -270,7 +227,7 @@ void (^prepareRequest)(id);
     [self send:object completionHandler:nil];
 }
 
-- (void)send:(id)object completionHandler:(void (^)(id response, NSError *error))block {
+- (void)send:(id)object completionHandler:(void (^)(id response))block {
     if (self.state == disconnected) {
         NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
         userInfo[NSLocalizedFailureReasonErrorKey] = NSInternalInconsistencyException;
@@ -279,10 +236,6 @@ void (^prepareRequest)(id);
                                              code:0 
                                          userInfo:userInfo];
         [self didReceiveError:error];
-        if (block) {
-            block(nil, error);
-        }
-        return;
     }
     
     if (self.state == connecting) {
@@ -293,10 +246,6 @@ void (^prepareRequest)(id);
                                              code:0 
                                          userInfo:userInfo];
         [self didReceiveError:error];
-        if (block) {
-            block(nil, error);
-        }
-        return;
     }
 
     NSString *message = nil;
@@ -305,14 +254,13 @@ void (^prepareRequest)(id);
     } else {
         message = [object SRJSONRepresentation];
     }
-
-    [self.transport send:self data:message connectionData:_connectionData completionHandler:block];
+    [_transport send:self withData:message completionHandler:block];
 }
 
 #pragma mark - 
 #pragma mark Received Data
 
-- (void)didReceiveData:(id)message {
+- (void)didReceiveData:(NSString *)message {
     if(self.received != nil) {
         self.received(message);
     }
@@ -338,10 +286,8 @@ void (^prepareRequest)(id);
     // the server during negotiation.
     // If the client tries to reconnect for longer the server will likely have deleted its ConnectionId
     // topic along with the contained disconnect message.
-    __weak __typeof(&*self)weakSelf = self;
     self.disconnectTimeoutOperation = [NSBlockOperation blockOperationWithBlock:^{
-        __strong __typeof(&*weakSelf)strongSelf = weakSelf;
-        [strongSelf disconnect];
+        [self disconnect];
     }];
     [self.disconnectTimeoutOperation performSelector:@selector(start) withObject:nil afterDelay:[_disconnectTimeout integerValue]];
     
@@ -367,61 +313,32 @@ void (^prepareRequest)(id);
     if (self.delegate && [self.delegate respondsToSelector:@selector(SRConnectionDidReconnect:)]) {
         [self.delegate SRConnectionDidReconnect:self];
     }
-    
-    [self updateLastKeepAlive];
 }
-
-- (void)connectionDidSlow {
-    if (self.connectionSlow != nil) {
-        self.connectionSlow();
-    }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(SRConnectionDidSlow:)]) {
-        [self.delegate SRConnectionDidSlow:self];
-    }
-}
-
-- (void)didClose {
-    if (self.closed != nil) {
-        self.closed();
-    }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(SRConnectionDidClose:)]) {
-        [self.delegate SRConnectionDidClose:self];
-    }
-}
-
-#pragma mark -
-#pragma mark Prepare Request
 
 - (void)addValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
     [_headers setValue:value forKey:field];
 }
 
-- (void)updateLastKeepAlive {
-    if (_keepAliveData != nil) {
-        _keepAliveData.lastKeepAlive = [NSDate date];
-    }
-}
+#pragma mark - 
+#pragma mark Prepare Request
 
-- (void)prepareRequest:(NSMutableURLRequest *)request {
+- (void)prepareRequest:(id <SRRequest>)request {
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-    [request addValue:[self createUserAgentString:NSLocalizedString(@"SignalR.Client.iOS",@"")] forHTTPHeaderField:@"User-Agent"];
+    [request setUserAgent:[self createUserAgentString:NSLocalizedString(@"SignalR.Client.iOS",@"")]];
 #elif TARGET_OS_MAC
-    [request addValue:[self createUserAgentString:NSLocalizedString(@"SignalR.Client.OSX",@"")] forHTTPHeaderField:@"User-Agent"];
+    [request setUserAgent:[self createUserAgentString:NSLocalizedString(@"SignalR.Client.OSX",@"")]];
 #endif
     
-    //TODO: set credentials
-    //[request setCredentials:_credentials];
+    [request setCredentials:_credentials];
     
-    [request setAllHTTPHeaderFields:_headers];
+    [request setHeaders:_headers];
     
     //TODO: Potentially set proxy here
 }
 
 - (NSString *)createUserAgentString:(NSString *)client {
     if(_assemblyVersion == nil) {
-        _assemblyVersion = [[SRVersion alloc] initWithMajor:2 minor:0 build:0 revision:0];
+        _assemblyVersion = [[SRVersion alloc] initWithMajor:1 minor:0 build:1 revision:0];
     }
    
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
@@ -450,3 +367,5 @@ void (^prepareRequest)(id);
 }
 
 @end
+
+NSString * const SRConnectionDidDisconnect = @"SRConnectionDidDisconnect";

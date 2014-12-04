@@ -33,7 +33,6 @@
 
 @property (strong, nonatomic, readonly) NSMutableDictionary *hubs;
 @property (strong, nonatomic, readonly) NSMutableDictionary *callbacks;
-@property (assign, nonatomic, readonly) int callbackId;
 
 + (NSString *)getUrl:(NSString *)URL useDefault:(BOOL)useDefault;
 
@@ -50,7 +49,7 @@
 
 - (instancetype)initWithURLString:(NSString *)URL useDefault:(BOOL)useDefault {
     if (self = [super initWithURLString:[[self class] getUrl:URL useDefault:useDefault]])  {
-		[self commonInit];
+        _hubs = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -61,7 +60,7 @@
 
 - (instancetype)initWithURLString:(NSString *)url queryString:(NSString *)queryString useDefault:(BOOL)useDefault {
     if (self = [super initWithURLString:[[self class] getUrl:url useDefault:useDefault] queryString:queryString]) {
-		[self commonInit];
+        _hubs = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -72,14 +71,10 @@
 
 - (instancetype)initWithURLString:(NSString *)url query:(NSDictionary *)queryString useDefault:(BOOL)useDefault {
     if (self = [super initWithURLString:[[self class] getUrl:url useDefault:useDefault] query:queryString]) {
-        [self commonInit];
+        _hubs = [[NSMutableDictionary alloc] init];
+        _callbacks = [[NSMutableDictionary alloc] init];
     }
     return self;
-}
-
-- (void)commonInit {
-	_hubs = [[NSMutableDictionary alloc] init];
-	_callbacks = [[NSMutableDictionary alloc] init];
 }
 
 - (id <SRHubProxyInterface>)createHubProxy:(NSString *)hubName {
@@ -98,28 +93,13 @@
 }
 
 - (NSString *)registerCallback:(SRHubResultBlock)callback {
-    NSString *newId = [[NSNumber numberWithInt:_callbackId] stringValue];
-    _callbacks[newId] = callback;
+    NSString *id = [[NSNumber numberWithInt:_callbackId] stringValue];
+    _callbacks[id] = callback;
     _callbackId += 1;
-    return newId;
+    return [[NSNumber numberWithInt:_callbackId] stringValue];
 }
 
-- (void)removeCallback:(NSString *)callbackId {
-    [[self callbacks] removeObjectForKey:callbackId];
-}
-
-- (void)clearInvocationCallbacks:(NSString *)error {
-    SRHubResult *result = [[SRHubResult alloc] init];
-    [result setError:error];
-    
-    for (SRHubResultBlock callback in [self.callbacks allValues]) {
-        callback(result);
-    }
-    
-    [self.callbacks removeAllObjects];
-}
-
-#pragma mark -
+#pragma mark - 
 #pragma mark Private
 
 + (NSString *)getUrl:(NSString *)URL useDefault:(BOOL)useDefault {
@@ -152,17 +132,18 @@
 #pragma mark - 
 #pragma mark Received Data
 
-- (void)didReceiveData:(id)data {
-    if([data isKindOfClass:[NSDictionary class]]) {
-        if ([data valueForKey:@"I"]) {
-            SRHubResult *result = [[SRHubResult alloc] initWithDictionary:data];
+- (void)didReceiveData:(NSString *)data {
+    if([data isKindOfClass:[NSString class]]) {
+        NSDictionary *message = [data SRJSONValue];
+        if ([message valueForKey:@"I"]) {
+            SRHubResult *result = [[SRHubResult alloc] initWithDictionary:message];
             SRHubResultBlock callback = _callbacks[result.id];
             if (callback) {
                 [_callbacks removeObjectForKey:result.id];
                 callback(result);
             }
         } else {
-            SRHubInvocation *invocation = [[SRHubInvocation alloc] initWithDictionary:data];
+            SRHubInvocation *invocation = [[SRHubInvocation alloc] initWithDictionary:message];
             SRHubProxy *hubProxy = _hubs[[invocation.hub lowercaseString]];
             if(hubProxy) {
                 if(invocation.state != nil && ![invocation.state isKindOfClass:[NSNull class]]) {
@@ -172,20 +153,10 @@
                 }
                 [hubProxy invokeEvent:invocation.method withArgs:invocation.args];
             }
-            
-            [super didReceiveData:data];
         }
     }
-}
-
-- (void)willReconnect {
-    [self clearInvocationCallbacks:@"Connection started reconnecting before invocation result was received."];
-    [super willReconnect];
-}
-
-- (void)didClose {
-    [self clearInvocationCallbacks:@"Connection was disconnected before invocation result was received."];
-    [super didClose];
+    
+    [super didReceiveData:data];
 }
 
 @end

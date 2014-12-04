@@ -32,14 +32,12 @@
 
 - (void)SRConnectionDidReconnect:(id <SRConnectionInterface>)connection;
 
-- (void)SRConnection:(id <SRConnectionInterface>)connection didReceiveData:(id)data;
+- (void)SRConnection:(id <SRConnectionInterface>)connection didReceiveData:(NSString *)data;
 
 - (void)SRConnectionDidClose:(id <SRConnectionInterface>)connection;
 
 - (void)SRConnection:(id <SRConnectionInterface>)connection didReceiveError:(NSError *)error;
 
 - (void)SRConnection:(id <SRConnectionInterface>)connection didChangeState:(connectionState)oldState newState:(connectionState)newState;
-
-- (void)SRConnectionDidSlow:(id <SRConnectionInterface>)connection;
 
 @end

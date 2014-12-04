@@ -26,7 +26,6 @@
 #import "SRLog.h"
 #import "SRSubscription.h"
 #import "SRHubConnectionInterface.h"
-#import "SRConnectionInterface.h"
 
 @interface SRHubProxy ()
 
@@ -34,6 +33,7 @@
 @property (strong, nonatomic, readonly) NSString *hubName;
 @property (strong, nonatomic, readonly) NSMutableDictionary *state;
 @property (strong, nonatomic, readonly) NSMutableDictionary *subscriptions;
+
 
 @end
 
@@ -71,7 +71,7 @@
 
 - (void)invokeEvent:(NSString *)eventName withArgs:(NSArray *)args {
     SRSubscription *eventObj = _subscriptions[eventName];
-    if(eventObj != nil && eventObj.object != nil) {
+    if(eventObj != nil) {
         NSMethodSignature *signature = [eventObj.object methodSignatureForSelector:eventObj.selector];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
         NSUInteger numberOfArguments = [signature numberOfArguments] - 2;

@@ -22,14 +22,15 @@
 
 #import <Foundation/Foundation.h>
 #import "SRConnection.h"
+#import "SRHubProxyInterface.h"
 #import "SRHubConnectionInterface.h"
-
-@protocol SRHubProxyInterface;
 
 /**
  * An `SRHubConnection` object provides an abstraction over `SRConnection` and provides support for publishing and subscribing to custom events
  */
-@interface SRHubConnection : SRConnection <SRHubConnectionInterface>
+@interface SRHubConnection : SRConnection <SRHubConnectionInterface> {
+    int _callbackId;
+}
 
 - (instancetype)initWithURLString:(NSString *)URL useDefault:(BOOL)useDefault;
 - (instancetype)initWithURLString:(NSString *)url queryString:(NSString *)queryString useDefault:(BOOL)useDefault;

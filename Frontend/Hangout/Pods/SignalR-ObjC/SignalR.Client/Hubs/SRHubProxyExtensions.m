@@ -34,14 +34,6 @@
 
 - (SRSubscription *)on:(NSString *)eventName perform:(NSObject *)object selector:(SEL)selector
 {
-    if (eventName == nil || [eventName isEqualToString:@""]) {
-        //TODO: Throw
-    }
-    
-    if (selector == nil) {
-        //TODO: Throw
-    }
-    
     SRSubscription *subscription = [self subscribe:eventName];
     subscription.object = object;
     subscription.selector = selector;
