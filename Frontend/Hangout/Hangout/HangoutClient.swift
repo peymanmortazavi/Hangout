@@ -23,15 +23,13 @@ public class HangoutClient {
         var response: AutoreleasingUnsafeMutablePointer <NSURLResponse?
         >=nil
         
-        var error: AutoreleasingUnsafeMutablePointer<NSError?> = nil
-        var dataVal: NSData? =  NSURLConnection.sendSynchronousRequest(request1, returningResponse: response, error:error)
-        if let data = dataVal {
-            var err: NSError? = nil
-            var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
-            println("Synchronous\(jsonResult)")
-            return jsonResult["firstName"] as NSString;
-        }
-        return "Failed to acquire server data";
+        var error: AutoreleasingUnsafeMutablePointer <NSErrorPointer?>=nil
+        var dataVal: NSData =  NSURLConnection.sendSynchronousRequest(request1, returningResponse: response, error:nil)!
+        var err: NSError
+        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(dataVal, options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
+        println("Synchronous\(jsonResult)")
+        
+        return jsonResult["firstName"] as NSString;
     }
     
 }

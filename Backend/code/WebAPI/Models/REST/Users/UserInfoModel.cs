@@ -1,7 +1,6 @@
 ﻿
 namespace Hangout.WebAPI
 {
-
 	public class UserInfoModel
 	{
 
@@ -16,6 +15,4 @@ namespace Hangout.WebAPI
 		public string Email {get;set;}
 
 	}
-
-
 }
