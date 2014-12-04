@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
+using Microsoft.Owin;
+using Hangout.WebAPI;
 
 [assembly: AssemblyTitle ("WebAPI")]
 [assembly: AssemblyDescription ("")]
@@ -12,6 +14,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright ("Peyman")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
+[assembly: OwinStartup(typeof(Startup))]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
