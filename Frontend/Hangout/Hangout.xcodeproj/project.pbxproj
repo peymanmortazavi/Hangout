@@ -13,7 +13,6 @@
 		72D6CBA71A0D7D4C005F423E /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6CBA61A0D7D4C005F423E /* HomepageViewController.swift */; };
 		72D6CBA91A0D844C005F423E /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6CBA81A0D844C005F423E /* FeedViewController.swift */; };
 		72D6CBAB1A0D859B005F423E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6CBAA1A0D859B005F423E /* MainViewController.swift */; };
-		72D6CBAD1A0D87E7005F423E /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6CBAC1A0D87E7005F423E /* PageContentViewController.swift */; };
 		72D6CBB01A0D9042005F423E /* HangoutClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D6CBAF1A0D9042005F423E /* HangoutClient.swift */; };
 		F3CDC22E1A0C676D0043E0FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CDC22D1A0C676D0043E0FB /* AppDelegate.swift */; };
 		F3CDC2301A0C676D0043E0FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CDC22F1A0C676D0043E0FB /* ViewController.swift */; };
@@ -40,7 +39,6 @@
 		72D6CBA61A0D7D4C005F423E /* HomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
 		72D6CBA81A0D844C005F423E /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		72D6CBAA1A0D859B005F423E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		72D6CBAC1A0D87E7005F423E /* PageContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageContentViewController.swift; sourceTree = "<group>"; };
 		72D6CBAF1A0D9042005F423E /* HangoutClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HangoutClient.swift; sourceTree = "<group>"; };
 		B88B1663A18F7DE465B29AD4 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		DDAED460995E3152B1644B16 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +86,6 @@
 			isa = PBXGroup;
 			children = (
 				F3CDC2311A0C676D0043E0FB /* Main.storyboard */,
-				72D6CBAC1A0D87E7005F423E /* PageContentViewController.swift */,
 				72D6CBAA1A0D859B005F423E /* MainViewController.swift */,
 				72D6CBA81A0D844C005F423E /* FeedViewController.swift */,
 				72D6CBA61A0D7D4C005F423E /* HomepageViewController.swift */,
@@ -311,7 +308,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				72D6CBAB1A0D859B005F423E /* MainViewController.swift in Sources */,
-				72D6CBAD1A0D87E7005F423E /* PageContentViewController.swift in Sources */,
 				72D6CBA21A0D6355005F423E /* LoginViewController.swift in Sources */,
 				F3CDC2301A0C676D0043E0FB /* ViewController.swift in Sources */,
 				72D6CBB01A0D9042005F423E /* HangoutClient.swift in Sources */,
