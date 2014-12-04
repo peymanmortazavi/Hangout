@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Comment these if you want to test with no connection
         var connection: SRConnection = SRConnection(URL: "http://172.29.129.140:8080/test");
         connection.start()
 
