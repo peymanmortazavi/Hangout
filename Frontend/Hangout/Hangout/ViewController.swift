@@ -14,8 +14,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // Comment these out (and more in LoginViewController) to test with no server connection
-        var connection: SRConnection = SRConnection(URL: "http://172.29.129.140:8080/test");
-        connection.start()
+        //var connection: SRConnection = SRConnection(URL: "http://172.29.129.140:8080/test");
+        //connection.start()
 
     }
 
