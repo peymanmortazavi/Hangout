@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Comment these out (and more in ViewController) to test with no server connection
         var client: HangoutClient = HangoutClient(apiUrl: "http://10.202.21.182:8080/")
         firstNameLabel.text = client.testGet()
         
