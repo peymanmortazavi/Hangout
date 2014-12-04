@@ -5,7 +5,7 @@ namespace Hangout.BusinessLogic
 
 	public class DuplicateEntityException : BusinessException
 	{
-		private readonly string _field;
+		private string _field;
 
 		public DuplicateEntityException(int errorCode, string field, string message) : base(errorCode, message)
 		{

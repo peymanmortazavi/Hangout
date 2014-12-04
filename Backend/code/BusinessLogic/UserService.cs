@@ -33,15 +33,15 @@ namespace Hangout.BusinessLogic
 			if (string.IsNullOrWhiteSpace (user.LastName))
 				details ["LastName"] = "Last name cannot be empty.";
 
-			if (string.IsNullOrWhiteSpace (user.PhoneNumber) || !Regex.IsMatch (user.PhoneNumber, @"^\d{3}-?\d{3}-?\d{4}$"))
+			if (Regex.IsMatch (user.PhoneNumber, @"^\d{3}-?\d{3}-?\d{4}$"))
 				details ["PhoneNumber"] = "Enter a valid U.S. phone number. 000-000-0000";
-			else
-				user.PhoneNumber = user.PhoneNumber.Replace ("-", string.Empty);
 
-			if (string.IsNullOrWhiteSpace (user.Email) || !Regex.IsMatch (user.Email, "^.*[@]{1}\\w*[.]{1}\\w{2,4}$"))
+			user.PhoneNumber = user.PhoneNumber.Replace ("-", string.Empty);
+
+			if (Regex.IsMatch (user.Email, "^.*[@]{1}\\w*[.]{1}\\w{2,4}$"))
 				details ["Email"] = "Please enter a valid email.";
 
-			if (string.IsNullOrWhiteSpace (user.Password) || !Regex.IsMatch (user.Password, "^.{8,25}$"))
+			if (Regex.IsMatch (user.Password, "^.{8,25}$"))
 				details["Password"] = "Pass must be at least 8 characters and less than 25 characters.";
 				
 			if (details.Count > 0)
