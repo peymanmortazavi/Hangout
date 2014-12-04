@@ -1,0 +1,14 @@
+PODS:
+  - AFNetworking (1.2.1)
+  - SignalR-ObjC (1.0.1):
+    - AFNetworking (>= 1.0.0)
+
+DEPENDENCIES:
+  - AFNetworking (~> 1.2.0)
+  - SignalR-ObjC (~> 1.0.1)
+
+SPEC CHECKSUMS:
+  AFNetworking: 7e82cfea05017c338ae62897f0a09ba1a8ebb479
+  SignalR-ObjC: daecc2e84aae71666d8037805af398c70fe5353f
+
+COCOAPODS: 0.35.0
