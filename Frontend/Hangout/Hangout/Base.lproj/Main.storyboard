@@ -214,6 +214,18 @@
                                 <exclude reference="Y6z-sv-zg1"/>
                                 <exclude reference="dJW-zc-YoT"/>
                                 <exclude reference="fgS-bM-TS2"/>
+                                <exclude reference="MBX-pQ-Cqd"/>
+                                <exclude reference="PUp-7w-uKe"/>
+                                <exclude reference="Yfb-4p-tmT"/>
+                                <exclude reference="jwV-zK-zTY"/>
+                                <exclude reference="0mk-Up-qSQ"/>
+                                <exclude reference="9RW-nd-GIb"/>
+                                <exclude reference="JMf-Mv-t1e"/>
+                                <exclude reference="Jll-e2-3u6"/>
+                                <exclude reference="S17-Jr-RQs"/>
+                                <exclude reference="Up5-mZ-VFC"/>
+                                <exclude reference="d7e-jm-6LN"/>
+                                <exclude reference="kzo-Ho-c6D"/>
                                 <exclude reference="0cC-d5-xU0"/>
                                 <exclude reference="HEU-Az-CXa"/>
                                 <exclude reference="HLK-BU-Ynv"/>
@@ -235,18 +247,6 @@
                                 <exclude reference="TvT-p3-n6U"/>
                                 <exclude reference="Vn5-ou-Zbf"/>
                                 <exclude reference="u4e-bc-Bdr"/>
-                                <exclude reference="MBX-pQ-Cqd"/>
-                                <exclude reference="PUp-7w-uKe"/>
-                                <exclude reference="Yfb-4p-tmT"/>
-                                <exclude reference="jwV-zK-zTY"/>
-                                <exclude reference="0mk-Up-qSQ"/>
-                                <exclude reference="9RW-nd-GIb"/>
-                                <exclude reference="JMf-Mv-t1e"/>
-                                <exclude reference="Jll-e2-3u6"/>
-                                <exclude reference="S17-Jr-RQs"/>
-                                <exclude reference="Up5-mZ-VFC"/>
-                                <exclude reference="d7e-jm-6LN"/>
-                                <exclude reference="kzo-Ho-c6D"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -263,6 +263,18 @@
                                 <include reference="Y6z-sv-zg1"/>
                                 <exclude reference="dJW-zc-YoT"/>
                                 <include reference="fgS-bM-TS2"/>
+                                <include reference="MBX-pQ-Cqd"/>
+                                <include reference="PUp-7w-uKe"/>
+                                <exclude reference="Yfb-4p-tmT"/>
+                                <include reference="jwV-zK-zTY"/>
+                                <exclude reference="0mk-Up-qSQ"/>
+                                <exclude reference="9RW-nd-GIb"/>
+                                <include reference="JMf-Mv-t1e"/>
+                                <exclude reference="Jll-e2-3u6"/>
+                                <exclude reference="S17-Jr-RQs"/>
+                                <include reference="Up5-mZ-VFC"/>
+                                <exclude reference="d7e-jm-6LN"/>
+                                <exclude reference="kzo-Ho-c6D"/>
                                 <include reference="0cC-d5-xU0"/>
                                 <exclude reference="HEU-Az-CXa"/>
                                 <include reference="HLK-BU-Ynv"/>
@@ -284,18 +296,6 @@
                                 <exclude reference="TvT-p3-n6U"/>
                                 <exclude reference="Vn5-ou-Zbf"/>
                                 <exclude reference="u4e-bc-Bdr"/>
-                                <include reference="MBX-pQ-Cqd"/>
-                                <include reference="PUp-7w-uKe"/>
-                                <exclude reference="Yfb-4p-tmT"/>
-                                <include reference="jwV-zK-zTY"/>
-                                <exclude reference="0mk-Up-qSQ"/>
-                                <exclude reference="9RW-nd-GIb"/>
-                                <include reference="JMf-Mv-t1e"/>
-                                <exclude reference="Jll-e2-3u6"/>
-                                <exclude reference="S17-Jr-RQs"/>
-                                <include reference="Up5-mZ-VFC"/>
-                                <exclude reference="d7e-jm-6LN"/>
-                                <exclude reference="kzo-Ho-c6D"/>
                             </mask>
                         </variation>
                     </view>
