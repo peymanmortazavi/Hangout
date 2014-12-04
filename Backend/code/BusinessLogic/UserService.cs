@@ -33,15 +33,15 @@ namespace Hangout.BusinessLogic
 			if (string.IsNullOrWhiteSpace (user.LastName))
 				details ["LastName"] = "Last name cannot be empty.";
 
-			if (Regex.IsMatch (user.PhoneNumber, @"^\d{3}-?\d{3}-?\d{4}$"))
+			if (string.IsNullOrWhiteSpace (user.PhoneNumber) || !Regex.IsMatch (user.PhoneNumber, @"^\d{3}-?\d{3}-?\d{4}$"))
 				details ["PhoneNumber"] = "Enter a valid U.S. phone number. 000-000-0000";
+			else
+				user.PhoneNumber = user.PhoneNumber.Replace ("-", string.Empty);
 
-			user.PhoneNumber = user.PhoneNumber.Replace ("-", string.Empty);
-
-			if (Regex.IsMatch (user.Email, "^.*[@]{1}\\w*[.]{1}\\w{2,4}$"))
+			if (string.IsNullOrWhiteSpace (user.Email) || !Regex.IsMatch (user.Email, "^.*[@]{1}\\w*[.]{1}\\w{2,4}$"))
 				details ["Email"] = "Please enter a valid email.";
 
-			if (Regex.IsMatch (user.Password, "^.{8,25}$"))
+			if (string.IsNullOrWhiteSpace (user.Password) || !Regex.IsMatch (user.Password, "^.{8,25}$"))
 				details["Password"] = "Pass must be at least 8 characters and less than 25 characters.";
 				
 			if (details.Count > 0)
@@ -90,27 +90,6 @@ namespace Hangout.BusinessLogic
 
 		}
 
-		public User[] GetAllUsers()
-		{
-
-			return _dataAccess.All<User> ().ToArray ();
-
-		}
-
-		public User GetUser(string id)
-		{
-			if(string.IsNullOrWhiteSpace (id))
-				throw new ArgumentException ("id");
-
-			var user = _dataAccess.Get<User> (id);
-
-			if (user == null)
-				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "User not found");
-
-			return user;
-
-		}
-
 		public FriendRequest SendFriendRequest (string userId)
 		{
 
@@ -124,7 +103,7 @@ namespace Hangout.BusinessLogic
 
 			var currentUser = _dataAccess.Get<User> (currentUserId);
 
-			if (currentUser.Friends != null && currentUser.Friends.Contains (userId))
+			if (currentUser.Friends.Contains (userId))
 				throw new AlreadyFriendException (ErrorCodes.AlreadyFriendError, "You are already ");
 
 			var friendRequest = new FriendRequest {
@@ -135,15 +114,6 @@ namespace Hangout.BusinessLogic
 			_dataAccess.Add (friendRequest);
 
 			return friendRequest;
-
-		}
-
-		public FriendRequest[] GetAllFriendRequestsForCurrentUser()
-		{
-
-			var currentUserId = ClaimsPrincipal.Current.FindFirst (HangoutClaims.Id).Value;
-
-			return _dataAccess.All<FriendRequest> ().Where (x => x.ReceiverId == currentUserId).ToArray ();
 
 		}
 

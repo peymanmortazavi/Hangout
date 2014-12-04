@@ -12,12 +12,6 @@ namespace Hangout.BusinessLogic
 
 		FriendRequest SendFriendRequest(string userId);
 
-		User GetUser(string id);
-
-		User[] GetAllUsers();
-
-		FriendRequest[] GetAllFriendRequestsForCurrentUser();
-
 		void AcceptFriendRequest(string friendRequestId);
 
 		void DenyFriendRequest(string friendRequestId);
