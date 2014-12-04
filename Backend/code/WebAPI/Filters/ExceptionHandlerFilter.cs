@@ -5,15 +5,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using Hangout.BusinessLogic;
-using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Text;
-using System.Security.Claims;
-using Hangout.Core;
 
 namespace Hangout.WebAPI
 {
-
 	public class ExceptionHandlerFilter : ExceptionFilterAttribute
 	{
 
@@ -37,16 +31,14 @@ namespace Hangout.WebAPI
 		{
 
 			var businessException = actionExecutedContext.Exception as BusinessException;
-			if (businessException != null) {
+			if (businessException != null)
+			{
 				var statusCode = HttpStatusCode.BadRequest;
-				if (_cailExceptionToHttpStatusCodes.ContainsKey (actionExecutedContext.Exception.GetType ().FullName))
-					statusCode = _cailExceptionToHttpStatusCodes [actionExecutedContext.Exception.GetType ().FullName];
+				if (_cailExceptionToHttpStatusCodes.ContainsKey(actionExecutedContext.Exception.GetType().FullName))
+					statusCode = _cailExceptionToHttpStatusCodes[actionExecutedContext.Exception.GetType().FullName];
 
 				actionExecutedContext.Response =
 					CreateCailErrorResponseMessage (businessException, statusCode);
-			} else if (actionExecutedContext.Exception is UnsupportedMediaTypeException) {
-				actionExecutedContext.Response = CreateStandardErrorResponseMessage("Unsupported media type, only json is accepted.",
-					HttpStatusCode.NotImplemented);
 			}
 			else if (actionExecutedContext.Exception is NotImplementedException)
 			{
@@ -57,7 +49,6 @@ namespace Hangout.WebAPI
 			{
 				actionExecutedContext.Response = CreateStandardErrorResponseMessage("Oops! something happened on our side.",
 					HttpStatusCode.InternalServerError);
-				Logger.Error ("Fatal error occured in an api controller.", actionExecutedContext.Exception);
 			}
 
 			base.OnException(actionExecutedContext);

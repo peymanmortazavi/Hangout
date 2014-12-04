@@ -6,12 +6,6 @@ namespace Hangout.Entities
 	public class User : IEntity
 	{
 
-		public User()
-		{
-			Friends = new List<string> ();
-			AttendingEvents = new List<string> ();
-		}
-
 		public string Id { get; set; }
 
 		public string FirstName { get; set; }

@@ -90,27 +90,6 @@ namespace Hangout.BusinessLogic
 
 		}
 
-		public User[] GetAllUsers()
-		{
-
-			return _dataAccess.All<User> ().ToArray ();
-
-		}
-
-		public User GetUser(string id)
-		{
-			if(string.IsNullOrWhiteSpace (id))
-				throw new ArgumentException ("id");
-
-			var user = _dataAccess.Get<User> (id);
-
-			if (user == null)
-				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "User not found");
-
-			return user;
-
-		}
-
 		public FriendRequest SendFriendRequest (string userId)
 		{
 
@@ -124,7 +103,7 @@ namespace Hangout.BusinessLogic
 
 			var currentUser = _dataAccess.Get<User> (currentUserId);
 
-			if (currentUser.Friends != null && currentUser.Friends.Contains (userId))
+			if (currentUser.Friends.Contains (userId))
 				throw new AlreadyFriendException (ErrorCodes.AlreadyFriendError, "You are already ");
 
 			var friendRequest = new FriendRequest {
@@ -135,15 +114,6 @@ namespace Hangout.BusinessLogic
 			_dataAccess.Add (friendRequest);
 
 			return friendRequest;
-
-		}
-
-		public FriendRequest[] GetAllFriendRequestsForCurrentUser()
-		{
-
-			var currentUserId = ClaimsPrincipal.Current.FindFirst (HangoutClaims.Id).Value;
-
-			return _dataAccess.All<FriendRequest> ().Where (x => x.ReceiverId == currentUserId).ToArray ();
 
 		}
 

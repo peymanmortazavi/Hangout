@@ -13,13 +13,13 @@ namespace Hangout.WebAPI
 
 			var dataAccess = new MongoDataAccess ("mongodb://localhost/Hangout");
 			Services.UserService = new UserService (dataAccess);
+
 			const string url = "http://*:8080";
 			using (WebApp.Start<Startup>(url))
 			{
 				Logger.Info ("Server running on " + url);
 				Console.ReadLine();
 			}
-
 
 		}
 	}

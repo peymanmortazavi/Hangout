@@ -4,25 +4,14 @@ using Microsoft.Owin.Cors;
 using Owin;
 using Newtonsoft.Json.Serialization;
 using AutoMapper;
-using Microsoft.Owin.Security.OAuth;
 using Hangout.Entities;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.DataProtection;
-using System;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.DataHandler.Encoder;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using Hangout.Core;
 
 namespace Hangout.WebAPI
 {
-
 	public class Startup
 	{
 		public void Configuration(IAppBuilder app)
 		{
-
 			app.UseCors(CorsOptions.AllowAll);
 
 			InitializeAutoMapper ();
@@ -44,7 +33,6 @@ namespace Hangout.WebAPI
 			app.UseWebApi(config);
 
 			app.MapSignalR <Echo>("/test");
-
 		}
 
 		public static void InitializeAutoMapper()
