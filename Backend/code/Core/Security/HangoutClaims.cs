@@ -2,12 +2,21 @@
 namespace Hangout.Core
 {
 
-	public static class HangoutClaims
+    /// <summary>
+    /// Hangout Claims (for Claims Based Authentication)
+    /// </summary>
+    public static class HangoutClaims
 	{
 
-		const string PREFIX = "http://claims.hangout.com/";
+        /// <summary>
+        /// The prefix for claims scheme
+        /// </summary>
+        const string PREFIX = "http://claims.hangout.com/";
 
-		public static readonly string Id = PREFIX + "id";
+        /// <summary>
+        /// The identifier claim scheme
+        /// </summary>
+        public static readonly string Id = PREFIX + "id";
 
 	}
 
