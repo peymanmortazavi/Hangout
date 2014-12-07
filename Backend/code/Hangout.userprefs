@@ -1,5 +1,6 @@
-﻿<Properties GitUserInfo="UsingMD">
+<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+<<<<<<< Upstream, based on origin/master
   <MonoDevelop.Ide.Workbench ActiveDocument="WebAPI/Controller/AccountsController.cs">
     <Files>
       <File FileName="DataAccess/MongoDB/DataAccessBase.cs" Line="46" Column="46" />
@@ -10,6 +11,9 @@
       <File FileName="WebAPI/Models/REST/Users/CreateUserModel.cs" Line="3" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+=======
+  <MonoDevelop.Ide.Workbench />
+>>>>>>> d4635e0 Added UserService Tests
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
