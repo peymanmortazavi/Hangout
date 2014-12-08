@@ -14,25 +14,15 @@ namespace Hangout.BusinessLogic
 
 		readonly IDataAccess _dataAccess;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserService"/> class.
-        /// </summary>
-        /// <param name="dataAccess">The data access.</param>
-        /// <exception cref="System.ArgumentNullException">dataAccess</exception>
-        public UserService(IDataAccess dataAccess)
+		public UserService(IDataAccess dataAccess)
 		{
 			if (dataAccess == null)
 				throw new ArgumentNullException ("dataAccess");
 
 			_dataAccess = dataAccess;
 		}
-
-        /// <summary>
-        /// Validates the user.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <exception cref="ValidationException">User is not valid.</exception>
-        private static void ValidateUser(User user)
+			
+		private static void ValidateUser(User user)
 		{
 
 			var details = new Dictionary<string, string> ();
@@ -58,17 +48,7 @@ namespace Hangout.BusinessLogic
 				throw new ValidationException (ErrorCodes.EntityValidationError, details, "User is not valid.");
 		}
 
-        /// <summary>
-        /// Creates the user.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <exception cref="System.ArgumentNullException">user</exception>
-        /// <exception cref="Hangout.BusinessLogic.DuplicateEntityException">
-        /// PhoneNumber
-        /// or
-        /// Email
-        /// </exception>
-        public void CreateUser (User user)
+		public void CreateUser (User user)
 		{
 
 			if (user == null)
@@ -92,19 +72,7 @@ namespace Hangout.BusinessLogic
 
 		}
 
-        /// <summary>
-        /// Logins the specified username.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="user">The user.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// password
-        /// or
-        /// username
-        /// </exception>
-        /// <exception cref="Hangout.BusinessLogic.BadCredentialsException">Wrong email and password!</exception>
-        public void Login (string username, string password, out User user)
+		public void Login (string username, string password, out User user)
 		{
 		
 			if (string.IsNullOrWhiteSpace (password))
@@ -122,14 +90,28 @@ namespace Hangout.BusinessLogic
 
 		}
 
-        /// <summary>
-        /// Sends the friend request.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns></returns>
-        /// <exception cref="Hangout.BusinessLogic.NotFoundException">User not found.</exception>
-        /// <exception cref="Hangout.BusinessLogic.AlreadyFriendException">You are already </exception>
-        public FriendRequest SendFriendRequest (string userId)
+		public User[] GetAllUsers()
+		{
+
+			return _dataAccess.All<User> ().ToArray ();
+
+		}
+
+		public User GetUser(string id)
+		{
+			if(string.IsNullOrWhiteSpace (id))
+				throw new ArgumentException ("id");
+
+			var user = _dataAccess.Get<User> (id);
+
+			if (user == null)
+				throw new NotFoundException (ErrorCodes.EntityNotFoundError, "User not found");
+
+			return user;
+
+		}
+
+		public FriendRequest SendFriendRequest (string userId)
 		{
 
 			// TODO: integrate with OWIN Claims Based Security and Identity Principal library
@@ -142,7 +124,7 @@ namespace Hangout.BusinessLogic
 
 			var currentUser = _dataAccess.Get<User> (currentUserId);
 
-			if (currentUser.Friends.Contains (userId))
+			if (currentUser.Friends != null && currentUser.Friends.Contains (userId))
 				throw new AlreadyFriendException (ErrorCodes.AlreadyFriendError, "You are already ");
 
 			var friendRequest = new FriendRequest {
@@ -156,19 +138,16 @@ namespace Hangout.BusinessLogic
 
 		}
 
-        /// <summary>
-        /// Accepts the friend request.
-        /// </summary>
-        /// <param name="friendRequestId">The friend request identifier.</param>
-        /// <exception cref="System.ArgumentException">friendRequestId</exception>
-        /// <exception cref="Hangout.BusinessLogic.NotFoundException">
-        /// Friend request not found!
-        /// or
-        /// User not found!
-        /// or
-        /// User not found.
-        /// </exception>
-        public void AcceptFriendRequest (string friendRequestId)
+		public FriendRequest[] GetAllFriendRequestsForCurrentUser()
+		{
+
+			var currentUserId = ClaimsPrincipal.Current.FindFirst (HangoutClaims.Id).Value;
+
+			return _dataAccess.All<FriendRequest> ().Where (x => x.ReceiverId == currentUserId).ToArray ();
+
+		}
+
+		public void AcceptFriendRequest (string friendRequestId)
 		{
 
 			if (string.IsNullOrWhiteSpace (friendRequestId))
@@ -201,13 +180,7 @@ namespace Hangout.BusinessLogic
 
 		}
 
-        /// <summary>
-        /// Denies the friend request.
-        /// </summary>
-        /// <param name="friendRequestId">The friend request identifier.</param>
-        /// <exception cref="System.ArgumentException">friendRequestId</exception>
-        /// <exception cref="Hangout.BusinessLogic.NotFoundException">Friend request not found!</exception>
-        public void DenyFriendRequest (string friendRequestId)
+		public void DenyFriendRequest (string friendRequestId)
 		{
 
 			if (string.IsNullOrWhiteSpace (friendRequestId))
@@ -224,3 +197,4 @@ namespace Hangout.BusinessLogic
 
 	}
 }
+
