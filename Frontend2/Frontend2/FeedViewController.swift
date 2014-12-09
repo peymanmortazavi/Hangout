@@ -1,21 +1,19 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  Hangout
 //
-//  Created by Peyman Mortazavi on 11/6/14.
+//  Created by Vahid Mazdeh on 11/7/14.
 //  Copyright (c) 2014 Peyman Mortazavi. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+
+class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Comment these out (and more in LoginViewController) to test with no server connection
-        //var connection: SRConnection = SRConnection(URL: "http://172.29.129.140:8080/test");
-        //connection.start()
         
     }
     
@@ -26,4 +24,3 @@ class ViewController: UIViewController {
     
     
 }
-

@@ -14,6 +14,15 @@
 		9B32CEE71A36650200704845 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B32CEE61A36650200704845 /* Images.xcassets */; };
 		9B32CEEA1A36650200704845 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B32CEE81A36650200704845 /* LaunchScreen.xib */; };
 		9B32CEF61A36650300704845 /* Frontend2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B32CEF51A36650300704845 /* Frontend2Tests.swift */; };
+		9B4909A91A36A4A600DB8E02 /* HangoutAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909A81A36A4A600DB8E02 /* HangoutAPIClient.swift */; };
+		9B4909AB1A36A4CA00DB8E02 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909AA1A36A4CA00DB8E02 /* MainViewController.swift */; };
+		9B4909AD1A36A4DE00DB8E02 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909AC1A36A4DE00DB8E02 /* FeedViewController.swift */; };
+		9B4909AF1A36A4EB00DB8E02 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909AE1A36A4EB00DB8E02 /* HomepageViewController.swift */; };
+		9B4909B11A36A4F700DB8E02 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909B01A36A4F700DB8E02 /* SignupViewController.swift */; };
+		9B4909B31A36A50300DB8E02 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909B21A36A50300DB8E02 /* LoginViewController.swift */; };
+		9B4909B51A36A98B00DB8E02 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909B41A36A98B00DB8E02 /* FriendsViewController.swift */; };
+		9B4909B71A36B8D800DB8E02 /* AddFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909B61A36B8D800DB8E02 /* AddFriendViewController.swift */; };
+		9B4909B91A36B8E500DB8E02 /* FriendRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4909B81A36B8E500DB8E02 /* FriendRequestViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +47,15 @@
 		9B32CEEF1A36650300704845 /* Frontend2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Frontend2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B32CEF41A36650300704845 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B32CEF51A36650300704845 /* Frontend2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frontend2Tests.swift; sourceTree = "<group>"; };
+		9B4909A81A36A4A600DB8E02 /* HangoutAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HangoutAPIClient.swift; sourceTree = "<group>"; };
+		9B4909AA1A36A4CA00DB8E02 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9B4909AC1A36A4DE00DB8E02 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		9B4909AE1A36A4EB00DB8E02 /* HomepageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
+		9B4909B01A36A4F700DB8E02 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		9B4909B21A36A50300DB8E02 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9B4909B41A36A98B00DB8E02 /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		9B4909B61A36B8D800DB8E02 /* AddFriendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFriendViewController.swift; sourceTree = "<group>"; };
+		9B4909B81A36B8E500DB8E02 /* FriendRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendRequestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,9 +97,9 @@
 		9B32CED91A36650200704845 /* Frontend2 */ = {
 			isa = PBXGroup;
 			children = (
+				9B4909A61A36A3F600DB8E02 /* HangoutAPIClient */,
+				9B4909A71A36A41600DB8E02 /* ViewControllers */,
 				9B32CEDC1A36650200704845 /* AppDelegate.swift */,
-				9B32CEE11A36650200704845 /* ViewController.swift */,
-				9B32CEE31A36650200704845 /* Main.storyboard */,
 				9B32CEE61A36650200704845 /* Images.xcassets */,
 				9B32CEE81A36650200704845 /* LaunchScreen.xib */,
 				9B32CEDE1A36650200704845 /* Frontend2.xcdatamodeld */,
@@ -113,6 +131,31 @@
 				9B32CEF41A36650300704845 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9B4909A61A36A3F600DB8E02 /* HangoutAPIClient */ = {
+			isa = PBXGroup;
+			children = (
+				9B4909A81A36A4A600DB8E02 /* HangoutAPIClient.swift */,
+			);
+			name = HangoutAPIClient;
+			sourceTree = "<group>";
+		};
+		9B4909A71A36A41600DB8E02 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B32CEE31A36650200704845 /* Main.storyboard */,
+				9B4909AA1A36A4CA00DB8E02 /* MainViewController.swift */,
+				9B4909AC1A36A4DE00DB8E02 /* FeedViewController.swift */,
+				9B4909AE1A36A4EB00DB8E02 /* HomepageViewController.swift */,
+				9B4909B01A36A4F700DB8E02 /* SignupViewController.swift */,
+				9B4909B21A36A50300DB8E02 /* LoginViewController.swift */,
+				9B32CEE11A36650200704845 /* ViewController.swift */,
+				9B4909B41A36A98B00DB8E02 /* FriendsViewController.swift */,
+				9B4909B61A36B8D800DB8E02 /* AddFriendViewController.swift */,
+				9B4909B81A36B8E500DB8E02 /* FriendRequestViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,9 +258,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B4909B31A36A50300DB8E02 /* LoginViewController.swift in Sources */,
+				9B4909A91A36A4A600DB8E02 /* HangoutAPIClient.swift in Sources */,
 				9B32CEE21A36650200704845 /* ViewController.swift in Sources */,
+				9B4909B11A36A4F700DB8E02 /* SignupViewController.swift in Sources */,
 				9B32CEE01A36650200704845 /* Frontend2.xcdatamodeld in Sources */,
+				9B4909AF1A36A4EB00DB8E02 /* HomepageViewController.swift in Sources */,
+				9B4909B51A36A98B00DB8E02 /* FriendsViewController.swift in Sources */,
 				9B32CEDD1A36650200704845 /* AppDelegate.swift in Sources */,
+				9B4909B91A36B8E500DB8E02 /* FriendRequestViewController.swift in Sources */,
+				9B4909B71A36B8D800DB8E02 /* AddFriendViewController.swift in Sources */,
+				9B4909AD1A36A4DE00DB8E02 /* FeedViewController.swift in Sources */,
+				9B4909AB1A36A4CA00DB8E02 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +397,7 @@
 				INFOPLIST_FILE = Frontend2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -355,6 +408,7 @@
 				INFOPLIST_FILE = Frontend2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -411,6 +465,7 @@
 				9B32CEFB1A36650300704845 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9B32CEFC1A36650300704845 /* Build configuration list for PBXNativeTarget "Frontend2Tests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +474,7 @@
 				9B32CEFE1A36650300704845 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
