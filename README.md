@@ -16,6 +16,5 @@ Documentation
 
 Execution
 =========
-To run and test this program, you must have XCode 6 and iOS Simulator installed. Open Frontend2.xcodeproj in XCode and build the project. This will successfully launch the app in the iOS Simulator. The Backend is continuously running on a Windows Azure server.
-// I NEED THE WINDOWS AZURE DEPLOYMENT IP/URL, OR ADD IT YOURSELF IN HangoutAPIClient.swift
+To run and test this program, you must have XCode 6 and iOS Simulator installed. Open Frontend2.xcodeproj in XCode and build the project. This will successfully launch the app in the iOS Simulator. The Backend is continuously running on a Windows Azure server at chil.cloudapp.net.
 
