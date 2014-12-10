@@ -14,6 +14,8 @@ Documentation
 =============
 To generate documentation, you just need to install the GhostDoc extention in Visual Studio and then go to "Tools > GhostDoc > Generate For File" and then select the entire Solution.
 
+In order to extract XML files out of generated comments, you need to specify it in Visual Studio/Xamarin Studio settings.
+
 Execution
 =========
 To run and test this program, you must have XCode 6 and iOS Simulator installed. Open Frontend2.xcodeproj in XCode and build the project. This will successfully launch the app in the iOS Simulator. The Backend is continuously running on a Windows Azure server at chil.cloudapp.net.
