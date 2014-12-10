@@ -12,7 +12,7 @@ public class HangoutClient {
     
     public class var ApiUrl: String{
         get{
-            return "http://localhost:8080/"
+            return "http://chil.cloudapp.net/"
         }
     }
     
