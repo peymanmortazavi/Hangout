@@ -13,7 +13,12 @@ namespace Hangout.WebAPI
 	public class AccountsController : ApiController
 	{
 
-		[HttpPost, Route("")]
+        /// <summary>
+        /// Creates the user.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        [HttpPost, Route("")]
 		public IHttpActionResult CreateUser(CreateUserModel model)
 		{
 
@@ -25,7 +30,12 @@ namespace Hangout.WebAPI
 
 		}
 
-		[HttpPost, Route("authenticate")]
+        /// <summary>
+        /// Logins the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        [HttpPost, Route("authenticate")]
 		public IHttpActionResult Login(LoginModel model)
 		{
 
@@ -38,8 +48,12 @@ namespace Hangout.WebAPI
 			return Ok( new { token=encodedId, firstName=user.FirstName, lastName=user.LastName } );
 
 		}
-			
-		[HttpGet, Route("")]
+
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("")]
 		[HangoutAuthorize]
 		public IHttpActionResult GetUserInfo()
 		{
@@ -49,7 +63,12 @@ namespace Hangout.WebAPI
 			return Ok (model);
 		}
 
-		[HttpPost, Route("lookup")]
+        /// <summary>
+        /// Lookups the users.
+        /// </summary>
+        /// <param name="phones">The phones.</param>
+        /// <returns></returns>
+        [HttpPost, Route("lookup")]
 		public IHttpActionResult LookupUsers(string[] phones)
 		{
 
@@ -61,7 +80,12 @@ namespace Hangout.WebAPI
 
 		}
 
-		[HttpPost, Route("friendrequests")]
+        /// <summary>
+        /// Creates the friend request.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpPost, Route("friendrequests")]
 		[HangoutAuthorize]
 		public IHttpActionResult CreateFriendRequest(string id)
 		{
@@ -72,7 +96,11 @@ namespace Hangout.WebAPI
 
 		}
 
-		[HttpGet, Route("friendrequests")]
+        /// <summary>
+        /// Gets the friend requests.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("friendrequests")]
 		[HangoutAuthorize]
 		public IHttpActionResult GetFriendRequests(  )
 		{
@@ -81,7 +109,13 @@ namespace Hangout.WebAPI
 
 		}
 
-		[HttpPut, Route("friendrequests/{friendRequestId}")]
+        /// <summary>
+        /// Updates the friend request.
+        /// </summary>
+        /// <param name="friendRequestId">The friend request identifier.</param>
+        /// <param name="accept">if set to <c>true</c> [accept].</param>
+        /// <returns></returns>
+        [HttpPut, Route("friendrequests/{friendRequestId}")]
 		[HangoutAuthorize]
 		public IHttpActionResult UpdateFriendRequest( string friendRequestId, bool accept )
 		{
@@ -95,7 +129,11 @@ namespace Hangout.WebAPI
 
 		}
 
-		[HttpGet, Route("friends")]
+        /// <summary>
+        /// Gets the friends.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("friends")]
 		[HangoutAuthorize]
 		public IHttpActionResult GetFriends()
 		{

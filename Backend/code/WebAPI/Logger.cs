@@ -9,7 +9,12 @@ namespace Hangout.WebAPI
 
 		public static string Format = "[{0}] {1} {2} {3}";
 
-		private static string SerializeData(Dictionary<string, string> data)
+        /// <summary>
+        /// Serializes the data.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        private static string SerializeData(Dictionary<string, string> data)
 		{
 			if (data == null)
 				return string.Empty;
@@ -23,27 +28,49 @@ namespace Hangout.WebAPI
 			return serializedData.ToString ();
 		}
 
-		public static void Trace(string msg)
+        /// <summary>
+        /// Traces the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        public static void Trace(string msg)
 		{
 			Console.WriteLine (Format, "TRACE", DateTime.Now.ToString ("g"), msg, string.Empty);
 		}
 
-		public static void Trace(string msg, Dictionary<string, string> data)
+        /// <summary>
+        /// Traces the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <param name="data">The data.</param>
+        public static void Trace(string msg, Dictionary<string, string> data)
 		{
 			Console.WriteLine (Format, "TRACE", DateTime.Now.ToString ("g"), msg, SerializeData (data));
 		}
 
-		public static void Debug(string msg)
+        /// <summary>
+        /// Debugs the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        public static void Debug(string msg)
 		{
 			Console.WriteLine (Format, "DEBUG", DateTime.Now.ToString ("g"), msg, string.Empty);
 		}
 
-		public static void Debug(string msg, Dictionary<string, string> data)
+        /// <summary>
+        /// Debugs the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <param name="data">The data.</param>
+        public static void Debug(string msg, Dictionary<string, string> data)
 		{
 			Console.WriteLine (Format, "DEBUG", DateTime.Now.ToString ("g"), msg, SerializeData (data));
 		}
 
-		public static void Info(string msg)
+        /// <summary>
+        /// Informations the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        public static void Info(string msg)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Cyan;
@@ -51,7 +78,12 @@ namespace Hangout.WebAPI
 			Console.ForegroundColor = currentColor;
 		}
 
-		public static void Info(string msg, Dictionary<string, string> data)
+        /// <summary>
+        /// Informations the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <param name="data">The data.</param>
+        public static void Info(string msg, Dictionary<string, string> data)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Cyan;
@@ -59,7 +91,11 @@ namespace Hangout.WebAPI
 			Console.ForegroundColor = currentColor;
 		}
 
-		public static void Warning(string msg)
+        /// <summary>
+        /// Warnings the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        public static void Warning(string msg)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Yellow;
@@ -67,7 +103,12 @@ namespace Hangout.WebAPI
 			Console.ForegroundColor = currentColor;
 		}
 
-		public static void Warning(string msg, Dictionary<string, string> data)
+        /// <summary>
+        /// Warnings the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <param name="data">The data.</param>
+        public static void Warning(string msg, Dictionary<string, string> data)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Yellow;
@@ -75,7 +116,11 @@ namespace Hangout.WebAPI
 			Console.ForegroundColor = currentColor;
 		}
 
-		public static void Error(string msg)
+        /// <summary>
+        /// Errors the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        public static void Error(string msg)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Red;
@@ -83,7 +128,12 @@ namespace Hangout.WebAPI
 			Console.ForegroundColor = currentColor;
 		}
 
-		public static void Error(string msg, Dictionary<string, string> data)
+        /// <summary>
+        /// Errors the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <param name="data">The data.</param>
+        public static void Error(string msg, Dictionary<string, string> data)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Red;
@@ -91,7 +141,13 @@ namespace Hangout.WebAPI
 			Console.ForegroundColor = currentColor;
 		}
 
-		public static void Error(string msg, Exception exception, Dictionary<string, string> data=null)
+        /// <summary>
+        /// Errors the specified MSG.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <param name="exception">The exception.</param>
+        /// <param name="data">The data.</param>
+        public static void Error(string msg, Exception exception, Dictionary<string, string> data=null)
 		{
 			var currentColor = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.Red;

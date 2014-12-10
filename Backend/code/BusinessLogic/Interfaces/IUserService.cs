@@ -6,21 +6,57 @@ namespace Hangout.BusinessLogic
 	public interface IUserService
 	{
 
-		void CreateUser(User user);
+        /// <summary>
+        /// Creates the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        void CreateUser(User user);
 
-		void Login(string username, string password, out User user);
+        /// <summary>
+        /// Logins the specified username.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="user">The user.</param>
+        void Login(string username, string password, out User user);
 
-		FriendRequest SendFriendRequest(string userId);
+        /// <summary>
+        /// Sends the friend request.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        FriendRequest SendFriendRequest(string userId);
 
-		User GetUser(string id);
+        /// <summary>
+        /// Gets the user.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        User GetUser(string id);
 
-		User[] GetAllUsers();
+        /// <summary>
+        /// Gets all users.
+        /// </summary>
+        /// <returns></returns>
+        User[] GetAllUsers();
 
-		FriendRequest[] GetAllFriendRequestsForCurrentUser();
+        /// <summary>
+        /// Gets all friend requests for current user.
+        /// </summary>
+        /// <returns></returns>
+        FriendRequest[] GetAllFriendRequestsForCurrentUser();
 
-		void AcceptFriendRequest(string friendRequestId);
+        /// <summary>
+        /// Accepts the friend request.
+        /// </summary>
+        /// <param name="friendRequestId">The friend request identifier.</param>
+        void AcceptFriendRequest(string friendRequestId);
 
-		void DenyFriendRequest(string friendRequestId);
+        /// <summary>
+        /// Denies the friend request.
+        /// </summary>
+        /// <param name="friendRequestId">The friend request identifier.</param>
+        void DenyFriendRequest(string friendRequestId);
 
 	}
 }

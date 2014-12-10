@@ -5,9 +5,19 @@ namespace Hangout.DataAccess
 {
 	public abstract class DataAccessBase
 	{
-		protected MongoDatabase Database { get; private set; }
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>
+        /// The database.
+        /// </value>
+        protected MongoDatabase Database { get; private set; }
 
-		protected DataAccessBase(string connectionString)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataAccessBase"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        protected DataAccessBase(string connectionString)
 		{
 			var url = MongoUrl.Create(connectionString);
 
@@ -17,7 +27,10 @@ namespace Hangout.DataAccess
 			Database = mongoServer.GetDatabase(url.DatabaseName);
 		}
 
-		protected virtual void MapObjects()
+        /// <summary>
+        /// Maps the objects.
+        /// </summary>
+        protected virtual void MapObjects()
 		{   
 		}
 	}

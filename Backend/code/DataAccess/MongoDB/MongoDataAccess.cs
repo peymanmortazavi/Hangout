@@ -19,7 +19,12 @@ namespace Hangout.DataAccess
 
 		private readonly Dictionary<string, MongoCollection> _collections;
 
-		private MongoCollection GetCollection<T>()
+        /// <summary>
+        /// Gets the collection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private MongoCollection GetCollection<T>()
 		{
 
 			var type = typeof(T);
@@ -40,7 +45,10 @@ namespace Hangout.DataAccess
 
 		}
 
-		private static void RegisterConventions()
+        /// <summary>
+        /// Registers the conventions.
+        /// </summary>
+        private static void RegisterConventions()
 		{
 			var myConventions = new ConventionPack
 			{
@@ -58,7 +66,11 @@ namespace Hangout.DataAccess
 		}
 
 
-		public MongoDataAccess(string connectionString)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MongoDataAccess"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        public MongoDataAccess(string connectionString)
 			: base(connectionString)
 		{
 			_collections = new Dictionary<string, MongoCollection>();
@@ -66,28 +78,56 @@ namespace Hangout.DataAccess
 			RegisterConventions();
 		}
 
-		public T Get<T>(string id) where T : IEntity
+        /// <summary>
+        /// Gets the specified identifier.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public T Get<T>(string id) where T : IEntity
 		{
 			return GetCollection<T>().FindOneByIdAs<T>(id);
 		}
 
-		public T Get<T>(Expression<Func<T, bool>> query) where T : IEntity
+        /// <summary>
+        /// Gets the specified query.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        public T Get<T>(Expression<Func<T, bool>> query) where T : IEntity
 		{
 			return GetCollection<T>().AsQueryable<T>().FirstOrDefault(query);
 		}
 
-		public IQueryable<T> All<T>() where T : IEntity
+        /// <summary>
+        /// Alls this instance.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IQueryable<T> All<T>() where T : IEntity
 		{
 			return GetCollection<T>().AsQueryable<T>();
 		}
 
-		public IQueryable<T> All<T>(Expression<Func<T, bool>> query) where T : IEntity
+        /// <summary>
+        /// Alls the specified query.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query">The query.</param>
+        /// <returns></returns>
+        public IQueryable<T> All<T>(Expression<Func<T, bool>> query) where T : IEntity
 		{
 			return GetCollection<T>().AsQueryable<T>().Where(query);
 		}
 
-		// TODO: find a way to use an id generator
-		public void Add<T>(T entity) where T : IEntity
+        // TODO: find a way to use an id generator
+        /// <summary>
+        /// Adds the specified entity.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">The entity.</param>
+        public void Add<T>(T entity) where T : IEntity
 		{
 			if (string.IsNullOrWhiteSpace(entity.Id))
 				entity.Id = ObjectId.GenerateNewId().ToString();
@@ -95,8 +135,13 @@ namespace Hangout.DataAccess
 			GetCollection<T>().Save(entity);
 		}
 
-		// TODO: find a way to use an id generator
-		public void Add<T>(IEnumerable<T> entities) where T : IEntity
+        // TODO: find a way to use an id generator
+        /// <summary>
+        /// Adds the specified entities.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entities">The entities.</param>
+        public void Add<T>(IEnumerable<T> entities) where T : IEntity
 		{
 			foreach (var entity in entities)
 			{
@@ -107,12 +152,22 @@ namespace Hangout.DataAccess
 			GetCollection<T>().InsertBatch(entities);
 		}
 
-		public void Delete<T>(string id) where T : IEntity
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id">The identifier.</param>
+        public void Delete<T>(string id) where T : IEntity
 		{
 			GetCollection<T>().Remove(Query<T>.EQ(record => record.Id, id));
 		}
 
-		public void Delete<T>(Expression<Func<T, bool>> query) where T : IEntity
+        /// <summary>
+        /// Deletes the specified query.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query">The query.</param>
+        public void Delete<T>(Expression<Func<T, bool>> query) where T : IEntity
 		{
 
 			var mongoCollection = GetCollection<T>();
@@ -123,12 +178,23 @@ namespace Hangout.DataAccess
 
 		}
 
-		public void Update<T>(T entity) where T : IEntity
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">The entity.</param>
+        public void Update<T>(T entity) where T : IEntity
 		{
 			GetCollection<T>().Save(entity);
 		}
 
-		public void Update<T>(Expression<Func<T, bool>> query, Action<T> update) where T : IEntity
+        /// <summary>
+        /// Updates the specified query.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query">The query.</param>
+        /// <param name="update">The update.</param>
+        public void Update<T>(Expression<Func<T, bool>> query, Action<T> update) where T : IEntity
 		{
 			var mongoCollection = GetCollection<T>();
 
