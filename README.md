@@ -12,7 +12,7 @@ The Frontend2 directory contains code for a simplified and incomplete model of t
 
 Documentation
 =============
-// PEYMAN ADD DOCUMENTATION AND WRITE ABOUT IT HERE
+To generate documentation, you just need to install the GhostDoc extention in Visual Studio and then go to "Tools > GhostDoc > Generate For File" and then select the entire Solution.
 
 Execution
 =========
